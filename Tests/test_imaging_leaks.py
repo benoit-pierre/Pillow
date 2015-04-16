@@ -3,6 +3,7 @@
 from __future__ import division
 from helper import unittest, PillowTestCase
 import sys
+import gc
 from PIL import Image, ImageFilter
 
 min_iterations = 100
@@ -20,6 +21,7 @@ class TestWebPLeaks(PillowTestCase):
         mem_limit = None
         for i in range(max_iterations):
             fn(*args, **kwargs)
+            gc.collect()
             mem = self._get_mem_usage()
             if i < min_iterations:
                 mem_limit = mem + 1
